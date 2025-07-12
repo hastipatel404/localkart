@@ -70,9 +70,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function addToCart(productId) {
-  alert("Cart functionality coming soon! Clicked product ID: " + productId);
-  // Later, call: fetch('../backend/users/add_to_cart.php', {...})
+  const userId = localStorage.getItem("user_id");
+  if (!userId) {
+    alert("Please log in first.");
+    window.location.href = "login.php";
+    return;
+  }
+
+  fetch("../backend/users/add_to_cart.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: userId,
+      product_id: productId
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+  });
 }
+
 </script>
 
 </body>
