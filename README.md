@@ -111,21 +111,10 @@ Edit
 | User   | Register via app   |
 
 ---
-
-## 🤝 Contributing
-
-Pull requests are welcome!  
-1. Fork the repo  
-2. Create a new branch  
-3. Make changes & commit  
-4. Push and create a PR
-
----
-
 ## 📄 License
 
 This project is open-source under the [MIT License](LICENSE).
 
 ---
 
-Made with ❤️ by [hastipatel404](https://github.com/hastipatel404) and team 🚀
+Made with ❤️ by [hastipatel404](https://github.com/hastipatel404) and [kritika1265](https://github.com/kritika1265)
