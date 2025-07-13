@@ -40,23 +40,26 @@
 </div>
 
 <script>
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
+function loginUser(e) {
   e.preventDefault();
-  const res = await fetch("../backend/auth/user_login.php", {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch("../backend/users/user_login.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value
-    })
+    body: JSON.stringify({ email, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    if (data.status) {
+      localStorage.setItem("user_id", data.user.id);
+      window.location.href = "dashboard.php"; // ✅ redirect to new user dashboard
+    }
   });
-  const result = await res.json();
-  document.getElementById("responseMsg").innerText = result.message;
-  if (result.status) {
-    alert("Login successful! Redirecting...");
-    window.location.href = "index.php";
-  }
-});
+}
 </script>
+
 </body>
 </html>

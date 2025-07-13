@@ -1,3 +1,5 @@
+<?php include 'includes/header.php'; ?>
+
 <?php
 // user-panel/products.php
 if (!isset($_GET['vendor_id'])) {
@@ -95,3 +97,4 @@ function addToCart(productId) {
 
 </body>
 </html>
+<?php include 'includes/footer.php'; ?>

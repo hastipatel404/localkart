@@ -4,13 +4,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Orders - Localkart</title>
+  <title>View Orders - Vendor Panel</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container py-4">
-  <h3>📦 My Order History</h3>
+  <h3>📋 My Orders</h3>
   <table class="table table-bordered mt-4">
     <thead class="table-dark">
       <tr>
@@ -23,20 +23,22 @@
     </thead>
     <tbody id="orderTable"></tbody>
   </table>
+
+  <a href="dashboard.php" class="btn btn-link mt-3">← Back to Dashboard</a>
 </div>
 
 <script>
-const userId = localStorage.getItem("user_id");
-if (!userId) {
-  alert("Login first");
+const vendorId = localStorage.getItem("vendor_id");
+if (!vendorId) {
+  alert("Please login first.");
   window.location.href = "login.php";
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const res = await fetch("../backend/users/get_orders.php", {
+  const res = await fetch("../backend/vendors/get_orders.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user_id: userId })
+    body: JSON.stringify({ vendor_id: vendorId })
   });
 
   const data = await res.json();
@@ -55,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
     });
   } else {
-    tbody.innerHTML = `<tr><td colspan="5">No orders yet.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5">No orders found.</td></tr>`;
   }
 });
 </script>

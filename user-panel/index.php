@@ -1,6 +1,8 @@
 <?php
 // user-panel/index.php
 ?>
+<?php include 'includes/header.php'; ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,3 +67,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 </body>
 </html>
+<?php include 'includes/footer.php'; ?>
