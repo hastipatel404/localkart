@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Vendors - Localkart Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <a class="navbar-brand" href="dashboard.html">Localkart Admin</a>
+    <div class="ms-auto">
+      <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container my-5">
+    <h3 class="mb-4">Manage Vendors</h3>
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Shop Name</th>
+          <th>Owner</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="vendorTableBody">
+        <!-- Data will be loaded here -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-2">
+    &copy; 2025 Localkart. All rights reserved.
+  </footer>
+
+  <script>
+    function logout() {
+      window.location.href = 'login.html';
+    }
+
+    function loadVendors() {
+      fetch('../backend/api/admin/view_vendors.php')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            const tbody = document.getElementById("vendorTableBody");
+            tbody.innerHTML = '';
+
+            data.vendors.forEach(vendor => {
+              tbody.innerHTML += `
+                <tr>
+                  <td>${vendor.vendor_id}</td>
+                  <td>${vendor.shop_name}</td>
+                  <td>${vendor.owner_name}</td>
+                  <td>${vendor.email}</td>
+                  <td>
+                    ${vendor.is_approved == 1 ? '<span class="badge bg-success">Approved</span>' : '<span class="badge bg-warning text-dark">Pending</span>'}
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-success me-2" onclick="updateVendor(${vendor.vendor_id}, 'approve')">Approve</button>
+                    <button class="btn btn-sm btn-danger" onclick="updateVendor(${vendor.vendor_id}, 'block')">Block</button>
+                  </td>
+                </tr>
+              `;
+            });
+          }
+        });
+    }
+
+    function updateVendor(vendor_id, action) {
+      fetch('../backend/api/admin/manage_vendors.php', {
+        method: 'POST',
+        body: JSON.stringify({ vendor_id, action })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        loadVendors(); // Refresh the table
+      });
+    }
+
+    window.onload = loadVendors;
+  </script>
+</body>
+</html>
