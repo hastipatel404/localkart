@@ -6,29 +6,29 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-    <a class="navbar-brand" href="#">Localkart Admin</a>
-    <div class="ms-auto">
-      <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout</button>
-    </div>
-  </nav>
+
+  <!-- Header (loaded dynamically) -->
+  <div id="header"></div>
 
   <div class="container my-5">
     <h3 class="mb-4">Dashboard</h3>
     <div class="row" id="stats">
-      <!-- Cards will be inserted here -->
+      <!-- Stats cards will appear here -->
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-2">
-    &copy; 2025 Localkart. All rights reserved.
-  </footer>
+  <!-- Footer (loaded dynamically) -->
+  <div id="footer"></div>
 
   <script>
     function logout() {
       window.location.href = 'login.html';
+    }
+
+    function loadComponent(id, file) {
+      fetch(file)
+        .then(res => res.text())
+        .then(html => document.getElementById(id).innerHTML = html);
     }
 
     function loadStats() {
@@ -75,7 +75,12 @@
         });
     }
 
-    window.onload = loadStats;
+    window.onload = () => {
+      loadComponent('header', 'components/header.html');
+      loadComponent('footer', 'components/footer.html');
+      loadStats();
+    };
   </script>
+
 </body>
 </html>
